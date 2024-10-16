@@ -1,1 +1,1 @@
-{"name":"rings","individuals":[{"id":14,"planet":null,"age":7523,"traits":null,"humanoid":true}]}
+{"name":"rings","individuals":[{"id":9,"planet":"Earth","age":124,"traits":["SHORT","BULKY"],"humanoid":true},{"id":14,"planet":null,"age":7523,"traits":null,"humanoid":true},{"id":19,"planet":"Earth","age":451,"traits":["BLONDE","POINTY_EARS"],"humanoid":true},{"id":22,"planet":"Earth","age":6000,"traits":["BLONDE"],"humanoid":true}]}

@@ -87,10 +87,12 @@ public class Main {
       starWarsScore++;
     }
     if (traits.contains("SHORT")) {
-      hitchhikersScore++;
+      starWarsScore++;
+
     }
     if (traits.contains("BLONDE")) {
       marvelScore++;
+      ringsScore++;
     }
     if (traits.contains("EXTRA_ARMS")) {
       hitchhikersScore++;
@@ -99,11 +101,11 @@ public class Main {
       hitchhikersScore++;
     }
     if (traits.contains("GREEN")) {
-      starWarsScore++;
       hitchhikersScore++;
     }
     if (traits.contains("BULKY")) {
-      starWarsScore++;
+      hitchhikersScore++;
+      ringsScore++;
     }
     if (traits.contains("POINTY_EARS")) {
       ringsScore++;
@@ -116,6 +118,8 @@ public class Main {
 
     int maxScore = Math.max(Math.max(starWarsScore, marvelScore), Math.max(hitchhikersScore, ringsScore));
     System.out.println("Max Score: " + maxScore);
+
+
 
     if (maxScore == 0) {
       System.out.println("Could not classify creature with ID: " + creature.getId());
@@ -174,7 +178,7 @@ public class Main {
     System.out.println("2. Add new creature.");
     System.out.println("3. Display creature by id.");
     System.out.println("4. Display creatures with even or odd id");
-      System.out.println("5. Classify creature in their own universe");
+    System.out.println("5. Classify creature in their own universe");
     System.out.println("0. Exit...");
 
     System.out.print("Chose a number: ");
