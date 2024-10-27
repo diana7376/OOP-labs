@@ -3,10 +3,12 @@ package oop.practice;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+  private static final Scanner scanner = new Scanner(System.in);
 
   public static void main(String[] args) throws IOException {
     CreatureJsonHandler jsonHandler = new CreatureJsonHandler();
@@ -20,10 +22,11 @@ public class Main {
     List<Universe> universes = universeManager.initializeUniverses();
 
     displayMenu(creatures, inputFile, universes, universeManager);
+
+    scanner.close(); // Close scanner once at the end
   }
 
   private static void displayMenu(List<Creature> creatures, File inputFile, List<Universe> universes, UniverseManager universeManager) throws IOException {
-    Scanner scanner = new Scanner(System.in);
     int maxId = creatures.stream().mapToInt(Creature::getId).max().orElse(0);
     String menuChoice = "";
 
@@ -94,10 +97,9 @@ public class Main {
           System.out.println("Invalid choice. Please select a valid option.");
       }
     }
-    scanner.close();
   }
-  private static void menuLab1(){
-    Scanner scanner = new Scanner(System.in);
+
+  private static void menuLab1() {
     String menuLab1 = "";
     while (!menuLab1.equals("0")) {
       System.out.println("Menu:");
@@ -120,6 +122,7 @@ public class Main {
           assistantClass();
           break;
         case "4":
+          analyzeMultipleTextFiles();
           break;
         case "0":
           System.out.println("Exiting Task Menu...");
@@ -128,13 +131,13 @@ public class Main {
         default:
           System.out.println("Invalid choice. Please select a valid option.");
       }
-
     }
   }
-  private static void displayClass(){
-    Display display1 = new Display(1920,1080, 401.5f, "Display 1");
-    Display display2 = new Display(2560,1440, 326.0f, "Display 2");
-    Display display3 = new Display(1280,720, 280.5f, "Display 3");
+
+  private static void displayClass() {
+    Display display1 = new Display(1920, 1080, 401.5f, "Display 1");
+    Display display2 = new Display(2560, 1440, 326.0f, "Display 2");
+    Display display3 = new Display(1280, 720, 280.5f, "Display 3");
 
     display1.compareWithMonitor(display2);
     System.out.println();
@@ -145,39 +148,68 @@ public class Main {
     display2.compareWithMonitor(display3);
   }
 
-
   private static void analyzeTextFile() {
-    Scanner scanner = new Scanner(System.in);
     System.out.print("Enter the path of the text file to analyze: ");
     String filePath = scanner.nextLine();
 
     try {
       String text = FileReader.readFileIntoString(filePath);
-
       TextData textData = new TextData(filePath, text);
-
       System.out.println(textData);
     } catch (IOException e) {
       System.out.println("An error occurred while reading the file: " + e.getMessage());
     }
   }
 
-  private static void assistantClass(){
-    Display display1 = new Display(1920,1080, 401.5f, "Display 1");
-    Display display2 = new Display(2560,1440, 326.0f, "Display 2");
-    Display display3 = new Display(1280,720, 280.5f, "Display 3");
+  private static void assistantClass() {
+    Display display1 = new Display(1920, 1080, 401.5f, "Display 1");
+    Display display2 = new Display(2560, 1440, 326.0f, "Display 2");
+    Display display3 = new Display(1280, 720, 280.5f, "Display 3");
 
-    Assistant assistant = new Assistant( "Tech Assistant", 1600, 900, 300.0f, "Assistant Display");
+    Assistant assistant = new Assistant("Tech Assistant", 1600, 900, 300.0f, "Assistant Display");
     assistant.assignDisplay(display1);
     assistant.assignDisplay(display2);
     assistant.assignDisplay(display3);
 
     assistant.assist();
-
     assistant.buyDisplay(display2);
-
     assistant.assist();
   }
 
-}
+  private static void analyzeMultipleTextFiles() {
+    System.out.print("Enter the number of files you want to read: ");
+    int numFiles = 0;
 
+    // Validate that the input is an integer
+    while (true) {
+      try {
+        numFiles = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+        break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a valid integer.");
+        scanner.nextLine(); // Clear the invalid input from the scanner buffer
+      }
+    }
+
+    String[] filePaths = new String[numFiles];
+
+    for (int i = 0; i < numFiles; i++) {
+      System.out.print("Enter path for file " + (i + 1) + ": ");
+      filePaths[i] = scanner.nextLine();
+    }
+
+    for (String filePath : filePaths) {
+      try {
+        System.out.println("Processing file: " + filePath);
+        String text = FileReader.readFileIntoString(filePath);
+        TextData textData = new TextData(filePath, text);
+        System.out.println(textData);
+        System.out.println("----------------------------------------------------");
+      } catch (IOException e) {
+        System.out.println("An error occurred while reading the file: " + filePath);
+        System.out.println("Error message: " + e.getMessage());
+      }
+    }
+  }
+}
