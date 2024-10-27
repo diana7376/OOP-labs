@@ -13,7 +13,7 @@ public class Main {
     UniverseManager universeManager = new UniverseManager();
 
     // Load creatures from JSON file
-    File inputFile = new File("D:/POO Labs/oop-course-repo/lab-papers-please/java-classifcation/src/main/resources/input.json");
+    File inputFile = new File("D:/POO Labs/OOP-lab1/lab-papers-please/java-classifcation/src/main/resources/input.json");
     List<Creature> creatures = jsonHandler.loadCreaturesFromJson(inputFile);
 
     // Initialize universes
@@ -34,6 +34,7 @@ public class Main {
       System.out.println("3. Display creature by id.");
       System.out.println("4. Display creatures with even or odd id.");
       System.out.println("5. Classify creatures into their universes.");
+      System.out.println("6. Lab 1 task1");
       System.out.println("0. Exit...");
       System.out.print("Choose a number: ");
       menuChoice = scanner.nextLine();
@@ -82,6 +83,9 @@ public class Main {
           System.out.println("Classified creatures and saved universes to JSON files.");
           break;
 
+        case "6":
+          displayClass();
+          break;
         case "0":
           System.out.println("Exiting program....");
           break;
@@ -92,4 +96,18 @@ public class Main {
     }
     scanner.close();
   }
+  private static void displayClass(){
+    Display display1 = new Display(1920,1080, 401.5f, "Display 1");
+    Display display2 = new Display(2560,1440, 326.0f, "Display 2");
+    Display display3 = new Display(1280,720, 280.5f, "Display 3");
+
+    display1.compareWithMonitor(display2);
+    System.out.println();
+
+    display1.compareWithMonitor(display3);
+    System.out.println();
+
+    display2.compareWithMonitor(display3);
+  }
 }
+
