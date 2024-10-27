@@ -34,7 +34,7 @@ public class Main {
       System.out.println("3. Display creature by id.");
       System.out.println("4. Display creatures with even or odd id.");
       System.out.println("5. Classify creatures into their universes.");
-      System.out.println("6. Lab 1 task1");
+      System.out.println("6. Lab 1");
       System.out.println("0. Exit...");
       System.out.print("Choose a number: ");
       menuChoice = scanner.nextLine();
@@ -84,7 +84,7 @@ public class Main {
           break;
 
         case "6":
-          displayClass();
+          menuLab1();
           break;
         case "0":
           System.out.println("Exiting program....");
@@ -95,6 +95,41 @@ public class Main {
       }
     }
     scanner.close();
+  }
+  private static void menuLab1(){
+    Scanner scanner = new Scanner(System.in);
+    String menuLab1 = "";
+    while (!menuLab1.equals("0")) {
+      System.out.println("Menu:");
+      System.out.println("1. Task 1.");
+      System.out.println("2. Task 2.");
+      System.out.println("3. Task 3.");
+      System.out.println("4. Task 4.");
+      System.out.println("0. Exit...");
+      System.out.print("Choose a number: ");
+      menuLab1 = scanner.nextLine();
+
+      switch (menuLab1) {
+        case "1":
+          displayClass();
+          break;
+        case "2":
+          analyzeTextFile();
+          break;
+        case "3":
+
+          break;
+        case "4":
+          break;
+        case "0":
+          System.out.println("Exiting Task Menu...");
+          break;
+
+        default:
+          System.out.println("Invalid choice. Please select a valid option.");
+      }
+
+    }
   }
   private static void displayClass(){
     Display display1 = new Display(1920,1080, 401.5f, "Display 1");
@@ -109,5 +144,24 @@ public class Main {
 
     display2.compareWithMonitor(display3);
   }
+
+
+  private static void analyzeTextFile() {
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Enter the path of the text file to analyze: ");
+    String filePath = scanner.nextLine();
+
+    try {
+      String text = FileReader.readFileIntoString(filePath);
+
+      TextData textData = new TextData(filePath, text);
+
+      System.out.println(textData);
+    } catch (IOException e) {
+      System.out.println("An error occurred while reading the file: " + e.getMessage());
+    }
+  }
+
+
 }
 

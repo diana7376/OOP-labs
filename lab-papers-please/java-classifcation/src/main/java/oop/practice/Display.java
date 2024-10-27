@@ -13,6 +13,11 @@ public class Display {
         this.model = model;
     }
 
+    public String getModel() {
+        return model;
+    }
+
+
     public void compareSize(Display m){
         int thisArea = this.width * this.height;
         int otherArea = m.width * m.height;
@@ -41,4 +46,5 @@ public class Display {
         compareSize(m);
         compareSharpness(m);
     }
+
 }
