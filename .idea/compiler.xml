@@ -9,5 +9,8 @@
         <module name="java-classifcation" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="kotlin-classification" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
