@@ -117,7 +117,7 @@ public class Main {
           analyzeTextFile();
           break;
         case "3":
-
+          assistantClass();
           break;
         case "4":
           break;
@@ -162,6 +162,22 @@ public class Main {
     }
   }
 
+  private static void assistantClass(){
+    Display display1 = new Display(1920,1080, 401.5f, "Display 1");
+    Display display2 = new Display(2560,1440, 326.0f, "Display 2");
+    Display display3 = new Display(1280,720, 280.5f, "Display 3");
+
+    Assistant assistant = new Assistant( "Tech Assistant", 1600, 900, 300.0f, "Assistant Display");
+    assistant.assignDisplay(display1);
+    assistant.assignDisplay(display2);
+    assistant.assignDisplay(display3);
+
+    assistant.assist();
+
+    assistant.buyDisplay(display2);
+
+    assistant.assist();
+  }
 
 }
 
