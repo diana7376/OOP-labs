@@ -180,15 +180,14 @@ public class Main {
     System.out.print("Enter the number of files you want to read: ");
     int numFiles = 0;
 
-    // Validate that the input is an integer
     while (true) {
       try {
         numFiles = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+        scanner.nextLine();
         break;
       } catch (InputMismatchException e) {
         System.out.println("Invalid input. Please enter a valid integer.");
-        scanner.nextLine(); // Clear the invalid input from the scanner buffer
+        scanner.nextLine();
       }
     }
 
