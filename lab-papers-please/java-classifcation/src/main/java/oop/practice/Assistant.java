@@ -5,6 +5,23 @@ import java.util.List;
 
 public class Assistant extends Display{
     private String assistantName;
+
+    public List<Display> getAssignedDisplays() {
+        return assignedDisplays;
+    }
+
+    public void setAssignedDisplays(List<Display> assignedDisplays) {
+        this.assignedDisplays = assignedDisplays;
+    }
+
+    public String getAssistantName() {
+        return assistantName;
+    }
+
+    public void setAssistantName(String assistantName) {
+        this.assistantName = assistantName;
+    }
+
     private List<Display> assignedDisplays;
 
     public Assistant(String assistantName, int width, int height, float ppi, String model) {

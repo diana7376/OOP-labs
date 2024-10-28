@@ -3,6 +3,35 @@ package oop.practice;
 public class Display {
     private int width;
     private int height;
+
+    public float getPpi() {
+        return ppi;
+    }
+
+    public void setPpi(float ppi) {
+        this.ppi = ppi;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
     private float ppi;
     private String model;
 

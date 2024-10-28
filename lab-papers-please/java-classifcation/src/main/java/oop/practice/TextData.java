@@ -5,6 +5,35 @@ public class TextData {
     private String text;
     private int numberOfVowels;
     private int numberOfConsonants;
+
+    public void setNumberOfLetters(int numberOfLetters) {
+        this.numberOfLetters = numberOfLetters;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setNumberOfVowels(int numberOfVowels) {
+        this.numberOfVowels = numberOfVowels;
+    }
+
+    public void setNumberOfConsonants(int numberOfConsonants) {
+        this.numberOfConsonants = numberOfConsonants;
+    }
+
+    public void setNumberOfSentences(int numberOfSentences) {
+        this.numberOfSentences = numberOfSentences;
+    }
+
+    public void setLongestWord(String longestWord) {
+        this.longestWord = longestWord;
+    }
+
     private int numberOfLetters;
     private int numberOfSentences;
     private String longestWord;
