@@ -1,8 +1,9 @@
 package Task1;
+import Task1.Intensity;
 
 public class Coffee {
 
-    private Intensity coffeeIntensity;
+    protected Intensity coffeeIntensity;
     private final String name = "Coffee";
 
     public Coffee(Intensity coffeeIntensity) {
@@ -21,9 +22,13 @@ public class Coffee {
         this.coffeeIntensity = coffeeIntensity;
     }
 
+    public final void make() {
+        System.out.println("Starting to make " + name + "...");
+        System.out.println("Coffee intensity: " + coffeeIntensity);
+    }
+
     public void printCoffeeDetails(){
-        System.out.println(name + " recipe");
-        System.out.println("Set coffee intensity to " + coffeeIntensity);
+
     }
 
 }

@@ -21,11 +21,17 @@ public class Americano extends Coffee{
         return coffeeName;
     }
 
+    public Americano makeAmericano() {
+        make();
+        System.out.println("Making " + coffeeName);
+        System.out.println("Adding " + mlOfWater + " ml of hot water");
+
+        return this;
+    }
     @Override
     public void printCoffeeDetails(){
         super.printCoffeeDetails();
-        System.out.println("Making " + coffeeName);
-        System.out.println("Add " + mlOfWater + " ml of water");
+        System.out.println("Americano is ready!");
     }
 
 
