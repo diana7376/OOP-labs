@@ -1,8 +1,10 @@
-package oop.practice;
+package oop.practice.lab1;
 
 public class Display {
     private int width;
     private int height;
+    private float ppi;
+    private String model;
 
     public float getPpi() {
         return ppi;
@@ -32,8 +34,7 @@ public class Display {
         this.model = model;
     }
 
-    private float ppi;
-    private String model;
+
 
     public Display(int width, int height, float ppi, String model) {
         this.width = width;

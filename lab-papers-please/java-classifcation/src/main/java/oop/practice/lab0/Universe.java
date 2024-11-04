@@ -1,6 +1,4 @@
-package oop.practice;
-
-import com.fasterxml.jackson.databind.JsonNode;
+package oop.practice.lab0;
 
 import java.util.List;
 

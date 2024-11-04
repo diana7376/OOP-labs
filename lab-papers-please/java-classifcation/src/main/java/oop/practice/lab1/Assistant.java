@@ -1,9 +1,9 @@
-package oop.practice;
+package oop.practice.lab1;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Assistant extends Display{
+public class Assistant extends Display {
     private String assistantName;
 
     public List<Display> getAssignedDisplays() {

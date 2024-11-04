@@ -1,4 +1,4 @@
-package oop.practice;
+package oop.practice.lab0;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.ArrayList;
 

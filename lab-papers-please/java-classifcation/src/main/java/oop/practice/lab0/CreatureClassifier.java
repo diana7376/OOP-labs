@@ -1,4 +1,4 @@
-package oop.practice;
+package oop.practice.lab0;
 
 import java.util.ArrayList;
 import java.util.List;

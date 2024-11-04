@@ -1,4 +1,4 @@
-package oop.practice;
+package oop.practice.lab1;
 
 public class TextData {
     private String fileName;

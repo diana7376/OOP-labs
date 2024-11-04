@@ -1,16 +1,25 @@
 package oop.practice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import oop.practice.lab0.*;
+import oop.practice.lab1.Assistant;
+import oop.practice.lab1.Display;
+import oop.practice.lab1.FileReader;
+import oop.practice.lab1.TextData;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.nio.file.AccessDeniedException;
 
 public class Main {
   private static final Scanner scanner = new Scanner(System.in);
 
   public static void main(String[] args) throws IOException {
+    System.out.println(args[0]);
     CreatureJsonHandler jsonHandler = new CreatureJsonHandler();
     UniverseManager universeManager = new UniverseManager();
 
@@ -21,12 +30,12 @@ public class Main {
     // Initialize universes
     List<Universe> universes = universeManager.initializeUniverses();
 
-    displayMenu(creatures, inputFile, universes, universeManager);
+    displayMenu(args, creatures, inputFile, universes, universeManager);
 
     scanner.close(); // Close scanner once at the end
   }
 
-  private static void displayMenu(List<Creature> creatures, File inputFile, List<Universe> universes, UniverseManager universeManager) throws IOException {
+  private static void displayMenu(String[] args, List<Creature> creatures, File inputFile, List<Universe> universes, UniverseManager universeManager) throws IOException {
     int maxId = creatures.stream().mapToInt(Creature::getId).max().orElse(0);
     String menuChoice = "";
 
@@ -87,7 +96,7 @@ public class Main {
           break;
 
         case "6":
-          menuLab1();
+          menuLab1(args);
           break;
         case "0":
           System.out.println("Exiting program....");
@@ -99,7 +108,7 @@ public class Main {
     }
   }
 
-  private static void menuLab1() {
+  private static void menuLab1(String[] args) {
     String menuLab1 = "";
     while (!menuLab1.equals("0")) {
       System.out.println("Menu:");
@@ -116,13 +125,13 @@ public class Main {
           displayClass();
           break;
         case "2":
-          analyzeTextFile();
+          analyzeTextFile(args);
           break;
         case "3":
           assistantClass();
           break;
         case "4":
-          analyzeMultipleTextFiles();
+          analyzeMultipleTextFiles(args);
           break;
         case "0":
           System.out.println("Exiting Task Menu...");
@@ -148,16 +157,28 @@ public class Main {
     display2.compareWithMonitor(display3);
   }
 
-  private static void analyzeTextFile() {
-    System.out.print("Enter the path of the text file to analyze: ");
-    String filePath = scanner.nextLine();
+  private static void analyzeTextFile(String[] args) {
 
-    try {
-      String text = FileReader.readFileIntoString(filePath);
-      TextData textData = new TextData(filePath, text);
-      System.out.println(textData);
-    } catch (IOException e) {
-      System.out.println("An error occurred while reading the file: " + e.getMessage());
+    if (args.length == 0) {
+      System.out.println("No file paths provided.");
+      return;
+    }
+
+    for (String filePath : args) {
+      try {
+
+        String content = FileReader.readFileIntoString(filePath);
+
+
+        TextData textData = new TextData(content, filePath);
+
+        System.out.println("----- Results for " + filePath + " -----");
+        System.out.println(content);
+        System.out.println("----------------------------------------\n");
+      } catch (Exception e) {
+        System.out.println("Error processing file: " + filePath);
+        e.printStackTrace();
+      }
     }
   }
 
@@ -176,38 +197,28 @@ public class Main {
     assistant.assist();
   }
 
-  private static void analyzeMultipleTextFiles() {
-    System.out.print("Enter the number of files you want to read: ");
-    int numFiles = 0;
+  private static void analyzeMultipleTextFiles( String[] args) {
 
-    while (true) {
-      try {
-        numFiles = scanner.nextInt();
-        scanner.nextLine();
-        break;
-      } catch (InputMismatchException e) {
-        System.out.println("Invalid input. Please enter a valid integer.");
-        scanner.nextLine();
-      }
+    if (args.length == 0) {
+      System.out.println("No file paths provided. Please provide file paths as command-line arguments.");
+      return;
     }
 
-    String[] filePaths = new String[numFiles];
-
-    for (int i = 0; i < numFiles; i++) {
-      System.out.print("Enter path for file " + (i + 1) + ": ");
-      filePaths[i] = scanner.nextLine();
-    }
-
-    for (String filePath : filePaths) {
+    for (String filePath : args) {
       try {
-        System.out.println("Processing file: " + filePath);
-        String text = FileReader.readFileIntoString(filePath);
-        TextData textData = new TextData(filePath, text);
+        // Read file content
+        String content = FileReader.readFileIntoString(filePath);
+
+        // Create TextData object and process text
+        TextData textData = new TextData(content, filePath);
+
+        // Display processed text data
+        System.out.println("----- Results for " + filePath + " -----");
         System.out.println(textData);
-        System.out.println("----------------------------------------------------");
-      } catch (IOException e) {
-        System.out.println("An error occurred while reading the file: " + filePath);
-        System.out.println("Error message: " + e.getMessage());
+        System.out.println("----------------------------------------\n");
+      } catch (Exception e) {
+        System.out.println("Error processing file: " + filePath);
+        e.printStackTrace();
       }
     }
   }
