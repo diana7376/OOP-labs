@@ -1,4 +1,4 @@
-package Task1;
+package CoffeShop;
 
 public enum SyrupType {
     MACADAMIA,

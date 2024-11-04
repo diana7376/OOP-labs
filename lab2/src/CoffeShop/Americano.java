@@ -1,4 +1,4 @@
-package Task1;
+package CoffeShop;
 
 public class Americano extends Coffee{
     private int mlOfWater;

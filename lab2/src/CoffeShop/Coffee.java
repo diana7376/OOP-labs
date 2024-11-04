@@ -1,5 +1,4 @@
-package Task1;
-import Task1.Intensity;
+package CoffeShop;
 
 public class Coffee {
 

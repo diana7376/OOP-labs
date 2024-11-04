@@ -1,13 +1,13 @@
-package Task1;
+package CoffeShop;
 
 public class SyrupCappuccino extends Cappuccino {
 
     private SyrupType syrup;
     private final String coffee = "SyrupCappuccino";
 
-    public SyrupCappuccino(Intensity intensity, int mltrOfMilk, SyrupType syrup) {
+    public SyrupCappuccino(Intensity intensity, int mltrOfMilk, String syrup) {
         super(intensity, mltrOfMilk);
-        this.syrup = syrup;
+        this.syrup = SyrupType.valueOf(syrup);
     }
 
     @Override

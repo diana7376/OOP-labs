@@ -1,4 +1,4 @@
-package Task1;
+package CoffeShop;
 
 public class PumpkinSpiceLatte extends Cappuccino{
     private int mgOfPumpkinSpice;
