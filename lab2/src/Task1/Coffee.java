@@ -2,7 +2,6 @@ package Task1;
 
 public class Coffee {
 
-
     private Intensity coffeeIntensity;
     private final String name = "Coffee";
 

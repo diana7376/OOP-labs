@@ -1,6 +1,7 @@
 package Task1;
 
 public class PumpkinSpiceLatte extends Cappuccino{
+
     private int mgOfPumpkinSpice;
     private final String name = "PumpkinSpiceLatte";
 

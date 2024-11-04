@@ -1,6 +1,7 @@
 package Task1;
 
 public class Cappuccino extends Coffee{
+
     private int mlOfMilk;
     private final String coffee = "Cappuccino";
 

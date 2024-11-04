@@ -22,5 +22,4 @@ public class SyrupCappuccino extends Cappuccino {
     public void setSyrup(SyrupType syrup) {
         this.syrup = syrup;
     }
-
 }
