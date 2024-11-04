@@ -1,7 +1,6 @@
 package Task1;
 
 public class Cappuccino extends Coffee{
-
     private int mlOfMilk;
     private final String coffee = "Cappuccino";
 
@@ -22,7 +21,12 @@ public class Cappuccino extends Coffee{
         return coffee;
     }
 
-
+    @Override
+    public void printCoffeeDetails(){
+        super.printCoffeeDetails();
+        System.out.println("Making " + coffee);
+        System.out.println("Add " + mlOfMilk + " ml of milk");
+    }
 
 
 }

@@ -21,4 +21,9 @@ public class Coffee {
         this.coffeeIntensity = coffeeIntensity;
     }
 
+    public void printCoffeeDetails(){
+        System.out.println(name + " recipe");
+        System.out.println("Set coffee intensity to " + coffeeIntensity);
+    }
+
 }
