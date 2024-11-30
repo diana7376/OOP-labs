@@ -6,22 +6,28 @@ public class Statistics {
     private int gasCarsRefueled = 0;
     private int electricCarsRefueled = 0;
 
-    public void addPeopleServed() {
+    // Synchronized to prevent race conditions if accessed by multiple threads
+    public synchronized void addPeopleServed() {
         peopleServed++;
+        System.out.println("People served updated: " + peopleServed);
     }
 
-    public void addRobotsServed() {
+    public synchronized void addRobotsServed() {
         robotsServed++;
+        System.out.println("Robots served updated: " + robotsServed);
     }
 
-    public void addGasCarsRefueled() {
+    public synchronized void addGasCarsRefueled() {
         gasCarsRefueled++;
+        System.out.println("Gas cars refueled updated: " + gasCarsRefueled);
     }
 
-    public void addElectricCarsRefueled() {
+    public synchronized void addElectricCarsRefueled() {
         electricCarsRefueled++;
+        System.out.println("Electric cars refueled updated: " + electricCarsRefueled);
     }
 
+    // Getters (not synchronized since they're only reading)
     public int getPeopleServed() {
         return peopleServed;
     }
