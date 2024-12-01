@@ -27,6 +27,23 @@ public class Statistics {
         System.out.println("Electric cars refueled updated: " + electricCarsRefueled);
     }
 
+    public synchronized void recordService(int carId, String type, String passengers, int consumption) {
+        System.out.println("Recording service for car ID: " + carId);
+        if (passengers.equalsIgnoreCase("PEOPLE")) {
+            addPeopleServed();
+        } else if (passengers.equalsIgnoreCase("ROBOTS")) {
+            addRobotsServed();
+        }
+
+        if (type.equalsIgnoreCase("GAS")) {
+            addGasCarsRefueled();
+        } else if (type.equalsIgnoreCase("ELECTRIC")) {
+            addElectricCarsRefueled();
+        }
+
+        System.out.println("Service recorded for car ID: " + carId + " with consumption: " + consumption);
+    }
+
     // Getters (not synchronized since they're only reading)
     public int getPeopleServed() {
         return peopleServed;

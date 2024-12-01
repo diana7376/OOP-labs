@@ -29,41 +29,41 @@ public class CarStationTest {
                 System.out.println("Refueling car " + carId);
             }
         };
-        carStation = new CarStation(diningService, refuelingService, stats,0);
+        carStation = new CarStation(diningService, refuelingService, stats, 0);
     }
 
     @Test
     public void testAddCarAndServeCars() {
-        CarStation.Car car1 = new CarStation.Car(1, true, false, true, 50);
-        CarStation.Car car2 = new CarStation.Car(2, false, true, false, 30);
-        CarStation.Car car3 = new CarStation.Car(3, true, true, true, 40);
+        CarStation.Car car1 = new CarStation.Car(1, "GAS", "PEOPLE", true, 50);
+        CarStation.Car car2 = new CarStation.Car(2, "ELECTRIC", "ROBOTS", false, 30);
+        CarStation.Car car3 = new CarStation.Car(3, "ELECTRIC", "ROBOTS", true, 40);
 
-        carStation.addCar(car1);
-        carStation.addCar(car2);
-        carStation.addCar(car3);
+        carStation.addCarFromJsonString(car1.toString());
+        carStation.addCarFromJsonString(car2.toString());
+        carStation.addCarFromJsonString(car3.toString());
 
         carStation.serveCars();
 
-        assertEquals(3, carStation.getTotalCarsServed(), "Total cars served should be 3");
-        assertEquals(120, carStation.getTotalConsumption(), "Total consumption should be 120");
+        assertEquals(3, stats.getPeopleServed() + stats.getRobotsServed(), "Total cars served should be 3");
+        assertEquals(120, car1.getConsumption() + car2.getConsumption() + car3.getConsumption(), "Total consumption should be 120");
         assertEquals(1, stats.getPeopleServed(), "Total people served should be 1");
-        assertEquals(1, stats.getRobotsServed(), "Total robots served should be 1");
+        assertEquals(2, stats.getRobotsServed(), "Total robots served should be 2");
         assertEquals(2, stats.getElectricCarsRefueled(), "Total electric cars refueled should be 2");
         assertEquals(1, stats.getGasCarsRefueled(), "Total gas cars refueled should be 1");
     }
 
     @Test
     public void testNoDiningCars() {
-        CarStation.Car car1 = new CarStation.Car(4, false, false, true, 60);
-        CarStation.Car car2 = new CarStation.Car(5, false, false, false, 20);
+        CarStation.Car car1 = new CarStation.Car(4, "ELECTRIC", "NONE", false, 60);
+        CarStation.Car car2 = new CarStation.Car(5, "GAS", "NONE", false, 20);
 
-        carStation.addCar(car1);
-        carStation.addCar(car2);
+        carStation.addCarFromJsonString(car1.toString());
+        carStation.addCarFromJsonString(car2.toString());
 
         carStation.serveCars();
 
-        assertEquals(2, carStation.getTotalCarsServed(), "Total cars served should be 2");
-        assertEquals(80, carStation.getTotalConsumption(), "Total consumption should be 80");
+        assertEquals(2, stats.getPeopleServed() + stats.getRobotsServed(), "Total cars served should be 2");
+        assertEquals(80, car1.getConsumption() + car2.getConsumption(), "Total consumption should be 80");
         assertEquals(0, stats.getPeopleServed(), "Total people served should be 0");
         assertEquals(0, stats.getRobotsServed(), "Total robots served should be 0");
         assertEquals(1, stats.getElectricCarsRefueled(), "Total electric cars refueled should be 1");
@@ -72,20 +72,19 @@ public class CarStationTest {
 
     @Test
     public void testOnlyDiningCars() {
-        CarStation.Car car1 = new CarStation.Car(6, true, false, false, 25);
-        CarStation.Car car2 = new CarStation.Car(7, true, true, true, 35);
+        CarStation.Car car1 = new CarStation.Car(6, "GAS", "PEOPLE", true, 25);
+        CarStation.Car car2 = new CarStation.Car(7, "ELECTRIC", "ROBOTS", true, 35);
 
-        carStation.addCar(car1);
-        carStation.addCar(car2);
+        carStation.addCarFromJsonString(car1.toString());
+        carStation.addCarFromJsonString(car2.toString());
 
         carStation.serveCars();
 
-        assertEquals(2, carStation.getTotalCarsServed(), "Total cars served should be 2");
-        assertEquals(60, carStation.getTotalConsumption(), "Total consumption should be 60");
+        assertEquals(2, stats.getPeopleServed() + stats.getRobotsServed(), "Total cars served should be 2");
+        assertEquals(60, car1.getConsumption() + car2.getConsumption(), "Total consumption should be 60");
         assertEquals(1, stats.getPeopleServed(), "Total people served should be 1");
         assertEquals(1, stats.getRobotsServed(), "Total robots served should be 1");
         assertEquals(1, stats.getElectricCarsRefueled(), "Total electric cars refueled should be 1");
         assertEquals(1, stats.getGasCarsRefueled(), "Total gas cars refueled should be 1");
     }
 }
-

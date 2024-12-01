@@ -1,110 +1,135 @@
 package Service;
 
-import java.util.Queue;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class CarStation {
-    private Dineable diningService;
-    private Refuelable refuelingService;
-    private Semaphore semaphore;
-    private Queue<Car> carQueue;
-    private int totalCarsServed;
-    private int totalConsumption;
-    private Statistics stats;
+    private final Dineable diningService;
+    private final Refuelable refuelingService;
+    private final Statistics stats;
+    private final Queue<Car> carQueue;
+    private final int semaphorePermits;
 
     public CarStation(Dineable diningService, Refuelable refuelingService, Statistics stats, int semaphorePermits) {
         this.diningService = diningService;
         this.refuelingService = refuelingService;
-        this.semaphore = new Semaphore(semaphorePermits);
-        this.carQueue = new LinkedList<>();
-        this.totalCarsServed = 0;
-        this.totalConsumption = 0;
         this.stats = stats;
+        this.carQueue = new LinkedList<>();
+        this.semaphorePermits = semaphorePermits;
     }
 
-    // Method to add a car to the station queue
-    public void addCar(Car car) {
-        carQueue.add(car);
+    public void addCarFromJsonString(String jsonString) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode jsonNode = objectMapper.readTree(jsonString);
+            int id = jsonNode.get("id").asInt();
+            String type = jsonNode.get("type").asText();
+            String passengers = jsonNode.get("passengers").asText();
+            boolean isDining = jsonNode.get("isDining").asBoolean();
+            int consumption = jsonNode.get("consumption").asInt();
+
+            Car car = new Car(id, type, passengers, isDining, consumption);
+            carQueue.add(car);
+            System.out.println("Car added from JSON: " + car);
+        } catch (IOException e) {
+            System.err.println("Failed to add car from JSON: " + e.getMessage());
+        }
     }
 
-    // Method to serve cars from the queue
+    public Queue<Car> getCarQueue() {
+        return carQueue;
+    }
+
     public void serveCars() {
         while (!carQueue.isEmpty()) {
-            try {
-                semaphore.acquire(); // Acquire a permit before serving a car
-                Car car = carQueue.poll();
-                if (car != null) {
-                    if (car.isDiningRequired()) {
-                        diningService.serveDinner(car.getId());
-                        if (car.isRobot()) {
-                            System.out.println("Adding robot served for car ID: " + car.getId());
-                            stats.addRobotsServed();
-                        } else {
-                            System.out.println("Adding person served for car ID: " + car.getId());
-                            stats.addPeopleServed();
-                        }
-                    }
+            Car car = carQueue.poll();
+            if (car != null) {
+                System.out.println("Serving car: " + car);
+                if (car.isDining) {
+                    diningService.serveDinner(car.getId());
+                } else {
                     refuelingService.refuel(car.getId());
-                    if (car.isElectric()) {
-                        stats.addElectricCarsRefueled();
-                    } else {
-                        stats.addGasCarsRefueled();
-                    }
-                    totalCarsServed++;
-                    totalConsumption += car.getConsumption();
                 }
-            } catch (InterruptedException e) {
-                System.out.println("Error acquiring semaphore: " + e.getMessage());
-            } finally {
-                semaphore.release(); // Release the permit after serving the car
+                stats.recordService(car.getId(), car.getType(), car.getPassengers(), car.getConsumption());
             }
         }
     }
 
-    // Getter for total cars served
-    public int getTotalCarsServed() {
-        return totalCarsServed;
-    }
-
-    // Getter for total consumption
-    public int getTotalConsumption() {
-        return totalConsumption;
-    }
-
-    // Car class for demonstration purposes
     public static class Car {
         private int id;
-        private boolean diningRequired;
-        private boolean isRobot;
-        private boolean isElectric;
+        private String type;
+        private String passengers;
+        private boolean isDining;
         private int consumption;
 
-        public Car(int id, boolean diningRequired, boolean isRobot, boolean isElectric, int consumption) {
+        public Car(int id, String type, String passengers, boolean isDining, int consumption) {
             this.id = id;
-            this.diningRequired = diningRequired;
-            this.isRobot = isRobot;
-            this.isElectric = isElectric;
+            this.type = type;
+            this.passengers = passengers;
+            this.isDining = isDining;
             this.consumption = consumption;
         }
 
+        // Getters and setters
         public int getId() {
             return id;
         }
 
-        public boolean isDiningRequired() {
-            return diningRequired;
+        public void setId(int id) {
+            this.id = id;
         }
 
-        public boolean isRobot() {
-            return isRobot;
+        public String getType() {
+            return type;
         }
 
-        public boolean isElectric() {
-            return isElectric;
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getPassengers() {
+            return passengers;
+        }
+
+        public void setPassengers(String passengers) {
+            this.passengers = passengers;
+        }
+
+        public boolean isDining() {
+            return isDining;
+        }
+
+        public void setDining(boolean dining) {
+            isDining = dining;
         }
 
         public int getConsumption() {
             return consumption;
+        }
+
+        public void setConsumption(int consumption) {
+            this.consumption = consumption;
+        }
+
+        @Override
+        public String toString() {
+            return "Car{" +
+                    "id=" + id +
+                    ", type='" + type + '\'' +
+                    ", passengers='" + passengers + '\'' +
+                    ", isDining=" + isDining +
+                    ", consumption=" + consumption +
+                    '}';
         }
     }
 }
