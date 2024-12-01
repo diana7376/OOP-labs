@@ -1,19 +1,21 @@
 package Service;
 
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.LinkedList;
 
 public class CarStation {
     private Dineable diningService;
     private Refuelable refuelingService;
+    private Semaphore semaphore;
     private Queue<Car> carQueue;
     private int totalCarsServed;
     private int totalConsumption;
     private Statistics stats;
 
-    public CarStation(Dineable diningService, Refuelable refuelingService, Statistics stats) {
+    public CarStation(Dineable diningService, Refuelable refuelingService, Statistics stats, int semaphorePermits) {
         this.diningService = diningService;
         this.refuelingService = refuelingService;
+        this.semaphore = new Semaphore(semaphorePermits);
         this.carQueue = new LinkedList<>();
         this.totalCarsServed = 0;
         this.totalConsumption = 0;
@@ -28,25 +30,34 @@ public class CarStation {
     // Method to serve cars from the queue
     public void serveCars() {
         while (!carQueue.isEmpty()) {
-            Car car = carQueue.poll();
-            if (car.isDiningRequired()) {
-                diningService.serveDinner(car.getId());
-                if (car.isRobot()) {
-                    System.out.println("Adding robot served for car ID: " + car.getId());
-                    stats.addRobotsServed();
-                } else {
-                    System.out.println("Adding person served for car ID: " + car.getId());
-                    stats.addPeopleServed();
+            try {
+                semaphore.acquire(); // Acquire a permit before serving a car
+                Car car = carQueue.poll();
+                if (car != null) {
+                    if (car.isDiningRequired()) {
+                        diningService.serveDinner(car.getId());
+                        if (car.isRobot()) {
+                            System.out.println("Adding robot served for car ID: " + car.getId());
+                            stats.addRobotsServed();
+                        } else {
+                            System.out.println("Adding person served for car ID: " + car.getId());
+                            stats.addPeopleServed();
+                        }
+                    }
+                    refuelingService.refuel(car.getId());
+                    if (car.isElectric()) {
+                        stats.addElectricCarsRefueled();
+                    } else {
+                        stats.addGasCarsRefueled();
+                    }
+                    totalCarsServed++;
+                    totalConsumption += car.getConsumption();
                 }
+            } catch (InterruptedException e) {
+                System.out.println("Error acquiring semaphore: " + e.getMessage());
+            } finally {
+                semaphore.release(); // Release the permit after serving the car
             }
-            refuelingService.refuel(car.getId());
-            if (car.isElectric()) {
-                stats.addElectricCarsRefueled();
-            } else {
-                stats.addGasCarsRefueled();
-            }
-            totalCarsServed++;
-            totalConsumption += car.getConsumption();
         }
     }
 

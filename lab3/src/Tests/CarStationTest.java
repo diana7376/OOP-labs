@@ -29,7 +29,7 @@ public class CarStationTest {
                 System.out.println("Refueling car " + carId);
             }
         };
-        carStation = new CarStation(diningService, refuelingService, stats);
+        carStation = new CarStation(diningService, refuelingService, stats,0);
     }
 
     @Test
