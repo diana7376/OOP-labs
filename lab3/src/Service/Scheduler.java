@@ -33,6 +33,7 @@ public class Scheduler {
             System.out.println("Semaphore acquired for adding cars.");
 
             File queueDir = new File("lab3/Resurse/queue");
+            System.out.println("Queue directory: " + queueDir.getAbsolutePath());
             File[] files = queueDir.listFiles((dir, name) -> name.endsWith(".json"));
 
             if (files != null && files.length > 0) {
@@ -42,6 +43,7 @@ public class Scheduler {
                     try {
                         System.out.println("Reading car file: " + file.getName());
                         String content = new String(Files.readAllBytes(Paths.get(file.getPath())));
+                        System.out.println("Content of the file being read: " + content);
                         carStation.addCarFromJsonString(content);
 
                         // Delete the file after processing
